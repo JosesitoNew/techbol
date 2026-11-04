@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{% if cliente %}Editar{% else %}Nuevo{% endif %} cliente</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" class="form-control" name="nombre" required
+               value="{{ cliente.nombre if cliente else '' }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Teléfono</label>
+        <input type="text" class="form-control" name="telefono"
+               value="{{ (cliente.telefono or '') if cliente else '' }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a class="btn btn-secondary" href="{{ url_for('bp_clientes.index') }}">Cancelar</a>
+</form>
+{% endblock %}

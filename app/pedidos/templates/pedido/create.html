@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{% if pedido %}Editar{% else %}Nuevo{% endif %} pedido</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Cliente</label>
+        <select class="form-select" name="cliente_id" required>
+            <option value="">Seleccione un cliente</option>
+            {% for c in clientes %}
+                <option value="{{ c.id }}" {% if pedido and pedido.cliente_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Producto</label>
+        <select class="form-select" name="producto_id" required>
+            <option value="">Seleccione un producto</option>
+            {% for p in productos %}
+                <option value="{{ p.id }}" {% if pedido and pedido.producto_id == p.id %}selected{% endif %}>{{ p.nombre }} - {{ '%.2f'|format(p.precio) }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <p class="text-muted">El monto se toma del precio del producto elegido.</p>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a class="btn btn-secondary" href="{{ url_for('bp_pedidos.index') }}">Cancelar</a>
+</form>
+{% endblock %}

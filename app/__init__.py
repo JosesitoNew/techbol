@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -11,6 +11,7 @@ def create_app():
     # SQLite: el archivo se crea dentro de instance/
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///bd_techbol.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SECRET_KEY"] = "clave_secreta_techbol"  # necesaria para flash()
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -25,8 +26,9 @@ def create_app():
     app.register_blueprint(bp_productos, url_prefix="/productos")
     app.register_blueprint(bp_pedidos, url_prefix="/pedidos")
 
+    # La raíz redirige al listado de clientes
+    @app.route("/")
+    def inicio():
+        return redirect(url_for("bp_clientes.index"))
+
     return app
-
-
-
-    
